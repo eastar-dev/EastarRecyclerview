@@ -1,5 +1,6 @@
 package dev.eastar.recyclerview
 
+import android.log.Log
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -27,12 +28,11 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            val myPref: Preference = findPreference("myKey") as Preference
-            myPref.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-//                Log.e()
+            val myPref = findPreference<Preference>("feedback")
+            myPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                Log.e()
                 true
             }
-
         }
     }
 }

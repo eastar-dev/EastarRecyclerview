@@ -1,3 +1,20 @@
+/*
+ * Copyright 2020 eastar Jeong
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package android.recycler
 
 import android.log.Log
@@ -14,10 +31,12 @@ import kotlin.math.sign
 @Suppress("unused")
 abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads constructor(
     @LayoutRes val layoutId: Int,
-    val items: List<VD> = listOf()
+    items: List<VD> = listOf()
 ) : RecyclerView.Adapter<VH>() {
 
     private var objects: MutableList<VD> = items.toMutableList()
+    abstract fun getHolder(itemView: View, viewType: Int): VH
+    abstract fun onBindViewHolder(h: VH, d: VD, position: Int)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val itemView = getItemView(layoutId, parent, viewType)
@@ -33,19 +52,18 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
         }
     }
 
-    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) = Log.e("[clicled item] $position, $item")
+    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {
+        Log.e("[clicled item] $position, $item")
+    }
 
     protected open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
         return LayoutInflater.from(parent.context).inflate(layer, parent, false)
     }
 
-    abstract fun getHolder(itemView: View, viewType: Int): VH
-
     override fun onBindViewHolder(holder: VH, position: Int) {
         onBindViewHolder(holder, objects[position], position)
     }
 
-    abstract fun onBindViewHolder(h: VH, d: VD, position: Int)
 
     override fun getItemCount(): Int {
         return objects.size
@@ -55,10 +73,18 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
         return objects[position]
     }
 
-
     //----------------------------------------------------------------------------------
-    private val lock = Any()
+    fun itemChange(collection: Collection<VD>?) = set(collection)
+    fun itemInsert(item: VD) = add(item)
+    fun itemInsert(position: Int, item: VD) = add(position, item)
+    fun itemMove(fromPosition: Int, toPosition: Int) = move(fromPosition, toPosition)
+    fun itemRangeInserte(collection: Collection<VD>?) = addAll(collection)
+    fun itemRangeInserte(position: Int, collection: Collection<VD>?) = addAll(position, collection)
+    fun itemRangeRemove(position: Int, itemCount: Int) = remove(position, itemCount)
+    fun itemRemove(position: Int) = remove(position)
 
+
+    private val lock = Any()
     fun set(collection: Collection<VD>?) {
         synchronized(lock) {
             objects.clear()
@@ -76,65 +102,69 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
         notifyItemInserted(objects.size)
     }
 
-    fun add(index: Int, item: VD) {
-        Log.e(index, item)
-        if (index !in 0..objects.size)
+    fun add(position: Int, item: VD) {
+        Log.e(position, item)
+        if (position !in 0..objects.size) {
+            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
             return
+        }
 
         synchronized(lock) {
-            objects.add(index, item)
+            objects.add(position, item)
         }
-        notifyItemInserted(index)
+        notifyItemInserted(position)
     }
 
     fun addAll(collection: Collection<VD>?) {
         if (collection == null)
             return
-        val last = objects.size
+        val position = objects.size
         synchronized(lock) {
             objects.addAll(collection)
         }
-        notifyItemRangeInserted(last, collection.size)
+        notifyItemRangeInserted(position, collection.size)
     }
 
-    fun addAll(index: Int, collection: Collection<VD>?) {
-        if (index !in 0..objects.size)
+    fun addAll(position: Int, collection: Collection<VD>?) {
+        if (position !in 0..objects.size) {
+            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
             return
+        }
 
         if (collection == null)
             return
         synchronized(lock) {
-            objects.addAll(index, collection)
+            objects.addAll(position, collection)
         }
-        notifyItemRangeInserted(index, collection.size)
+        notifyItemRangeInserted(position, collection.size)
     }
 
-    fun remove(index: Int) {
-        Log.w(index)
-        if (index !in 0 until objects.size)
+    fun remove(position: Int) {
+        Log.w(position)
+        if (position !in 0 until objects.size)
             return
         synchronized(lock) {
-            objects.removeAt(index)
+            objects.removeAt(position)
         }
-        notifyItemRemoved(index)
+        notifyItemRemoved(position)
     }
 
-    fun remove(index: Int, count: Int) {
-        if (index !in 0 until objects.size) {
-            Log.w("!index is must in 0 until objects.size  Current index is [$index]")
+    fun remove(position: Int, itemCount: Int) {
+        if (position !in 0 until objects.size) {
+            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
-        if (count > objects.size) {
-            Log.w("!count is must count <= objects.size  Current objects.size is [objects.size] Current index is [$index]")
+        if (itemCount > objects.size) {
+            Log.w("!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]")
             return
         }
-        Log.w(index, count)
+        Log.w(position, itemCount)
         synchronized(lock) {
-            repeat(count) {
-                objects.removeAt(index)
+            repeat(itemCount) {
+                objects.removeAt(position)
             }
         }
-        notifyItemRangeRemoved(index, count)
+        notifyItemRangeRemoved(position, itemCount)
     }
 
     fun move(fromPosition: Int, toPosition: Int, notifyItemChange: Boolean = false) {
@@ -146,12 +176,10 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
             Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
             return
         }
-//        Log.w("$fromPosition -> $toPosition")
         repeat(max(fromPosition, toPosition) - min(fromPosition, toPosition)) {
             val sign = (toPosition - fromPosition).sign
             val start = fromPosition + sign * it
             val end = start + sign
-//            Log.e(start, end)
             synchronized(lock) {
                 Collections.swap(objects, start, end)
             }
@@ -159,6 +187,25 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
         }
         if (notifyItemChange)
             notifyItemChanged(toPosition)
+    }
+
+    fun move(fromPosition: Int, toPosition: Int) {
+        if (fromPosition !in 0 until objects.size) {
+            Log.w("!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
+            return
+        }
+        if (toPosition !in 0 until objects.size) {
+            Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+            return
+        }
+
+        Log.w("=============================================================================")
+        Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+        Log.w("=============================================================================")
+        synchronized(lock) {
+            objects.add(toPosition, objects.removeAt(fromPosition))
+        }
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     fun clear() {

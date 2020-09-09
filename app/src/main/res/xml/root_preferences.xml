@@ -35,9 +35,9 @@
     <PreferenceCategory app:title="Run">
 
         <Preference
-            app:key="feedback"
-            app:summary="Report technical issues or suggest new features"
-            app:title="Send feedback"/>
+            app:key="recycler1"
+            app:summary="RecyclerView ArrayAdapter"
+            app:title="RecyclerView ArrayAdapter" />
 
     </PreferenceCategory>
 
