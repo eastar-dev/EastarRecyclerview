@@ -25,10 +25,15 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class DiffArrayAdapter @JvmOverloads constructor(
-    private vararg var diffInfo: DiffInfo,
-    items: List<Any> = listOf()
-) : ArrayAdapter<DiffHolder<Any>, Any>(0, items) {
+abstract class DiffArrayAdapter constructor(
+    vararg var diffInfo: DiffInfo,
+) : ArrayAdapter<DiffHolder<Any>, Any>(0) {
+
+    constructor(items: List<Any> = listOf(), vararg diffInfo: DiffInfo) {
+        set(items)
+        this.diffInfo = diffInfo
+    }
+
     override fun getItemViewType(position: Int): Int {
         val d = getItem(position)
 
@@ -45,6 +50,7 @@ abstract class DiffArrayAdapter @JvmOverloads constructor(
         }.getOrDefault(0)
 
     }
+
     override fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
         return LayoutInflater.from(parent.context).inflate(diffInfo[viewType].layout, parent, false)
     }

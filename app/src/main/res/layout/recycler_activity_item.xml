@@ -3,6 +3,9 @@
 
     <data>
 
+        <variable
+            name="data"
+            type="dev.eastar.recyclerview.Data" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -13,6 +16,7 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:glideLoad="@{data.icon}"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -20,6 +24,7 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:text="@{data.name}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView" />
 
