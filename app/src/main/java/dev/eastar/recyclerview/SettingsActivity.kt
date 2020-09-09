@@ -30,11 +30,11 @@ class SettingsActivity : AppCompatActivity() {
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
             setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
         }
     }
 }

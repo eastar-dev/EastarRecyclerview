@@ -7,6 +7,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import dev.eastar.recyclerview.BR
 import dev.eastar.recyclerview.databinding.RecyclerActivityBinding
 
 class BindingDataArrayAdapterDemo : AppCompatActivity() {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="dev.eastar.recyclerview.EastarViewModel" />
@@ -12,9 +13,9 @@
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:appStartMainDataSet="@{vm.appStart.result.mainMenu}"
+        app:adapterData="@{vm.items}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="4"
+        tools:itemCount="40"
         tools:listitem="@layout/recycler_activity_item"
         tools:visibility="visible" />
 </layout>

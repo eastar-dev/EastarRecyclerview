@@ -22,7 +22,9 @@ class BindingViewArrayAdapterDemo : AppCompatActivity() {
         bb.list.adapter = DataArrayAdapter(items)
     }
 
-    class DataArrayAdapter(items: List<Data>) : BindingViewArrayAdapter<RecyclerActivityItemBinding, Data>(R.layout.recycler_activity_item, items) {
+    class DataArrayAdapter(items: List<Data>)
+        : BindingViewArrayAdapter<RecyclerActivityItemBinding, Data>
+    (R.layout.recycler_activity_item, items) {
         override fun onBindViewHolder(
             bb: RecyclerActivityItemBinding,
             d: Data,

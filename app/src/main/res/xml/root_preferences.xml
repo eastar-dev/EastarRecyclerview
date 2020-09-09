@@ -35,7 +35,7 @@
     <PreferenceCategory app:title="Run">
 
         <Preference
-            app:key="recycler1"
+            app:key="ArrayAdapter"
             app:summary="RecyclerView ArrayAdapter"
             app:title="RecyclerView ArrayAdapter" />
 
