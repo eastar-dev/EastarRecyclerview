@@ -74,14 +74,14 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     //----------------------------------------------------------------------------------
-    fun itemChange(collection: Collection<VD>?) = set(collection)
-    fun itemInsert(item: VD) = add(item)
-    fun itemInsert(position: Int, item: VD) = add(position, item)
-    fun itemMove(fromPosition: Int, toPosition: Int) = move(fromPosition, toPosition)
-    fun itemRangeInserte(collection: Collection<VD>?) = addAll(collection)
-    fun itemRangeInserte(position: Int, collection: Collection<VD>?) = addAll(position, collection)
-    fun itemRangeRemove(position: Int, itemCount: Int) = remove(position, itemCount)
-    fun itemRemove(position: Int) = remove(position)
+//    fun itemChange(collection: Collection<VD>?) = set(collection)
+//    fun itemInsert(item: VD) = add(item)
+//    fun itemInsert(position: Int, item: VD) = add(position, item)
+//    fun itemMove(fromPosition: Int, toPosition: Int) = move(fromPosition, toPosition)
+//    fun itemRangeInserte(collection: Collection<VD>?) = addAll(collection)
+//    fun itemRangeInserte(position: Int, collection: Collection<VD>?) = addAll(position, collection)
+//    fun itemRangeRemove(position: Int, itemCount: Int) = remove(position, itemCount)
+//    fun itemRemove(position: Int) = remove(position)
 
 
     private val lock = Any()

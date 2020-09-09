@@ -1,6 +1,7 @@
 package dev.eastar.recyclerview
 
-import android.log.Log
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -28,11 +29,19 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            val myPref = findPreference<Preference>("feedback")
-            myPref?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                Log.e()
-                true
-            }
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
         }
+    }
+}
+
+fun PreferenceFragmentCompat.setIntent(key: String, clz: Class<out Activity>) {
+    findPreference<Preference>(key)?.onPreferenceClickListener = Preference.OnPreferenceClickListener {
+        startActivity(Intent(context, clz))
+        true
     }
 }
