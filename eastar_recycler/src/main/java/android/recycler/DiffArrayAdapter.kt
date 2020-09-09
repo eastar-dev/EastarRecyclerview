@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 abstract class DiffArrayAdapter constructor(
     vararg var diffInfo: DiffInfo, items: List<Any> = listOf()
-) : ArrayAdapter<DiffHolder<Any>, Any>(0) {
+) : ArrayAdapter<DiffHolder<Any>, Any>(0, items) {
 
     override fun getItemViewType(position: Int): Int {
         val d = getItem(position)
@@ -80,7 +80,12 @@ abstract class DiffArrayAdapter constructor(
 
     //----------------------------------------------------------------------------------
 
-    data class DiffInfo(@LayoutRes var layout: Int, var holderClz: Class<out DiffHolder<*>>, var dataClz: Class<*>? = null)
+    data class DiffInfo(
+        @LayoutRes var layout: Int,
+        var holderClz: Class<out DiffHolder<*>>,
+        var dataClz: Class<*>? = null
+    )
+
 
     abstract class DiffHolder<VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(d: VD)

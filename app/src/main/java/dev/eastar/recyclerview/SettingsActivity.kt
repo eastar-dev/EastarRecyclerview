@@ -19,7 +19,6 @@ class SettingsActivity : AppCompatActivity() {
                 .replace(R.id.settings, SettingsFragment())
                 .commit()
         }
-//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
     class SettingsFragment : PreferenceFragmentCompat() {
@@ -29,12 +28,11 @@ class SettingsActivity : AppCompatActivity() {
 
         override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
             super.onViewCreated(view, savedInstanceState)
-            setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
-            //setIntent("ArrayAdapter", ArrayAdapterDemo::class.java)
+            setIntent("ArrayAdapterDemo", ArrayAdapterDemo::class.java)
+            setIntent("BindingDataArrayAdapterDemo", BindingDataArrayAdapterDemo::class.java)
+            setIntent("BindingViewArrayAdapterDemo", BindingViewArrayAdapterDemo::class.java)
+            setIntent("DiffArrayAdapterDemo", DiffArrayAdapterDemo::class.java)
+            setIntent("DiffBindingDataArrayAdapterDemo", DiffBindingDataArrayAdapterDemo::class.java)
         }
     }
 }

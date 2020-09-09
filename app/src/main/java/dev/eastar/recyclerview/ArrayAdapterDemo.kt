@@ -6,23 +6,26 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import dev.eastar.recyclerview.databinding.RecyclerActivityBinding
+import dev.eastar.recyclerview.databinding.ArrayadapterDemoBinding
+import dev.eastar.recyclerview.model.DATA_SOURCE
+import dev.eastar.recyclerview.model.Data
+import dev.eastar.recyclerview.model.ICON
 
 class ArrayAdapterDemo : AppCompatActivity() {
 
-    private lateinit var bb: RecyclerActivityBinding
-    private val items = DATA_SOURCE.mapIndexed { index, text -> Data("$ICON$index", text) }
+    private lateinit var bb: ArrayadapterDemoBinding
+    private val ITEMS = DATA_SOURCE.mapIndexed { index, text -> Data("$ICON$index", text) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, R.layout.recycler_activity)
-        bb.list.adapter = DataArrayAdapter(items)
+        bb = ArrayadapterDemoBinding.inflate(layoutInflater)
+        setContentView(bb.root)
+        bb.list.adapter = DataArrayAdapter(ITEMS)
     }
 
-    class DataArrayAdapter(items: List<Data>) : ArrayAdapter<Holder, Data>(R.layout.recycler_activity_item, items) {
+    class DataArrayAdapter(items: List<Data>) : ArrayAdapter<Holder, Data>(R.layout.arrayadapter_demo_item, items) {
         override fun getHolder(itemView: View, viewType: Int): Holder {
             return Holder(itemView)
         }

@@ -1,4 +1,4 @@
-package dev.eastar.recyclerview
+package dev.eastar.recyclerview.model
 
 data class Data(
     val icon: String,

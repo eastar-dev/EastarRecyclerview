@@ -6,7 +6,7 @@
 
         <variable
             name="vm"
-            type="dev.eastar.recyclerview.EastarViewModel" />
+            type="dev.eastar.recyclerview.DiffBindingDataArrayAdapterDemoViewModel" />
     </data>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -16,7 +16,7 @@
         app:adapterData="@{vm.items}"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:itemCount="40"
-        tools:listitem="@layout/recycler_activity_item"
+        tools:listitem="@layout/arrayadapter_demo_item"
         tools:visibility="visible" />
 </layout>
 

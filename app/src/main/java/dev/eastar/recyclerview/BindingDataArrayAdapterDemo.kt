@@ -1,22 +1,21 @@
 package dev.eastar.recyclerview
 
 import android.os.Bundle
-import android.recycler.ArrayAdapter
 import android.recycler.BindingDataArrayAdapter
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.RecyclerView
-import dev.eastar.recyclerview.BR
-import dev.eastar.recyclerview.databinding.RecyclerActivityBinding
+import dev.eastar.recyclerview.databinding.BindingdataarrayadapterDemoBinding
+import dev.eastar.recyclerview.model.DATA_SOURCE
+import dev.eastar.recyclerview.model.Data
+import dev.eastar.recyclerview.model.ICON
 
 class BindingDataArrayAdapterDemo : AppCompatActivity() {
-    private lateinit var bb: RecyclerActivityBinding
+    private lateinit var bb: BindingdataarrayadapterDemoBinding
     private val items = DATA_SOURCE.mapIndexed { index, text -> Data("$ICON$index", text) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        bb = DataBindingUtil.setContentView(this, R.layout.recycler_activity)
-        bb.list.adapter = BindingDataArrayAdapter(R.layout.recycler_activity_item, BR.data, items)
+        bb = BindingdataarrayadapterDemoBinding.inflate(layoutInflater)
+        setContentView(bb.root)
+        bb.list.adapter = BindingDataArrayAdapter(R.layout.bindingdataarrayadapter_demo_item, BR.data, items)
     }
 }
