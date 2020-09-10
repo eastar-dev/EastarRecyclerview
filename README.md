@@ -76,9 +76,7 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
             app:layout_constraintTop_toTopOf="parent"
 ...
 ```
-![Screenshot](https://github.com/eastar-dev/EastarRecyclerview/blob/master/release/classes.png?raw=true)
-
-#### Your code
+![Screenshot](https://github.com/eastar-dev/EastarRecyclerview/blob/master/release/clz.png?raw=true)
 
 ## License
  ```code
