@@ -33,7 +33,7 @@ open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
     override fun getItemViewType(position: Int): Int {
         val d = getItem(position)
 
-        if (d is DiffArrayAdapter.ItemViewType)
+        if (d is DiffItemViewType)
             return d.getItemViewType()
 
         return runCatching {

@@ -2,9 +2,9 @@ package dev.eastar.recyclerview
 
 import android.log.Log
 import android.os.Bundle
-import android.recycler.DiffArrayAdapter.NullItem
 import android.recycler.DiffBindingDataArrayAdapter
 import android.recycler.DiffBindingDataArrayAdapter.DiffInfo
+import android.recycler.NullItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.BindingAdapter
