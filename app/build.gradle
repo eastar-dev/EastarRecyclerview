@@ -38,7 +38,7 @@ dependencies {
     releaseApi 'com.github.eastar-dev.EastarLog2:logNoOp:2.0.3'
 
 
-    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.0'
+    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.1'
 //    implementation project(':eastar_recycler')
 
 }
