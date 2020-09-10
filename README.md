@@ -76,7 +76,19 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
             app:layout_constraintTop_toTopOf="parent"
 ...
 ```
+
+## class diagram
 ![Screenshot](https://github.com/eastar-dev/EastarRecyclerview/blob/master/release/clz.png?raw=true)
+
+## desc
+|Class|AutoHolder|AutoDataSet|Multi Type Data|Data Support(add,remove, ...)|
+|:---|:---:|:---:|:---:|:---:|
+|ArrayAdapter|X|X|X|O|
+|BindingViewArrayAdapter|X|X|X|O|
+|BindingDataArrayAdapter|O|O|X|O|
+|DiffArrayAdapter|X|X|O|O|
+|DiffBindingDataArrayAdapter|O|O|O|O|
+
 
 ## License
  ```code
