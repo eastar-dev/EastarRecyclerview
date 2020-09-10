@@ -81,7 +81,7 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
 ![Screenshot](https://github.com/eastar-dev/EastarRecyclerview/blob/master/release/clz.png?raw=true)
 
 ## desc
-|Class|AutoHolder|AutoDataSet|Multi Type Data|Data Support(add,remove, ...)|
+|Class|AutoHolder|AutoDataSet|Multi Type Data|Data(add,remove, ...)|
 |:---|:---:|:---:|:---:|:---:|
 |ArrayAdapter|X|X|X|O|
 |BindingViewArrayAdapter|X|X|X|O|
@@ -89,6 +89,8 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
 |DiffArrayAdapter|X|X|O|O|
 |DiffBindingDataArrayAdapter|O|O|O|O|
 
+## after more
+paging3 support
 
 ## License
  ```code
