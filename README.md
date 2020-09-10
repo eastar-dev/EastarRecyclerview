@@ -26,7 +26,7 @@ allprojects {
 #### Add the dependency
 ```javascript
 dependencies {
-    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.1'
+    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.2'
 }
 ```
 
