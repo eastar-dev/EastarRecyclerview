@@ -17,7 +17,7 @@
 
 package android.recycler
 
-import android.log.Log
+//import android.log.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -41,7 +41,7 @@ open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
                 it.dataClz == d.javaClass
             }.takeUnless { it < 0 } ?: 0
         }.onFailure {
-            Log.e(javaClass)
+//            Log.e(javaClass)
             it.printStackTrace()
         }.getOrDefault(0)
 

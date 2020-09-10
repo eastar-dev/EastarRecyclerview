@@ -17,7 +17,7 @@
 
 package android.recycler
 
-import android.log.Log
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +53,7 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {
-        Log.e("[clicled item] $position, $item")
+//        Log.e("[clicled item] $position, $item")
     }
 
     protected open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
@@ -103,9 +103,9 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     fun add(position: Int, item: VD) {
-        Log.e(position, item)
+//        Log.e(position, item)
         if (position !in 0..objects.size) {
-            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
 
@@ -127,7 +127,7 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
 
     fun addAll(position: Int, collection: Collection<VD>?) {
         if (position !in 0..objects.size) {
-            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
 
@@ -140,7 +140,7 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     fun remove(position: Int) {
-        Log.w(position)
+//        Log.w(position)
         if (position !in 0 until objects.size)
             return
         synchronized(lock) {
@@ -151,14 +151,14 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
 
     fun remove(position: Int, itemCount: Int) {
         if (position !in 0 until objects.size) {
-            Log.w("!position is must in 0 until objects.size  Current index is [$position]")
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
         if (itemCount > objects.size) {
-            Log.w("!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]")
+            Log.i("EastarRecyclerView", "!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]")
             return
         }
-        Log.w(position, itemCount)
+//        Log.w(position, itemCount)
         synchronized(lock) {
             repeat(itemCount) {
                 objects.removeAt(position)
@@ -169,11 +169,11 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
 
     fun move(fromPosition: Int, toPosition: Int, notifyItemChange: Boolean = false) {
         if (fromPosition !in 0 until objects.size) {
-            Log.w("!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
+            Log.i("EastarRecyclerView", "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
             return
         }
         if (toPosition !in 0 until objects.size) {
-            Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+            Log.i("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
             return
         }
         repeat(max(fromPosition, toPosition) - min(fromPosition, toPosition)) {
@@ -191,17 +191,17 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
 
     fun move(fromPosition: Int, toPosition: Int) {
         if (fromPosition !in 0 until objects.size) {
-            Log.w("!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
+            Log.i("EastarRecyclerView", "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
             return
         }
         if (toPosition !in 0 until objects.size) {
-            Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+            Log.i("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
             return
         }
 
-        Log.w("=============================================================================")
-        Log.w("!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
-        Log.w("=============================================================================")
+        Log.w("EastarRecyclerView", "=============================================================================")
+        Log.w("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+        Log.w("EastarRecyclerView", "=============================================================================")
         synchronized(lock) {
             objects.add(toPosition, objects.removeAt(fromPosition))
         }

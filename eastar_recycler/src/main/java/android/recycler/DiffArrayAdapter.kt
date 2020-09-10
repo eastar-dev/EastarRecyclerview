@@ -17,7 +17,7 @@
 
 package android.recycler
 
-import android.log.Log
+//import android.log.Log
 import android.recycler.DiffArrayAdapter.DiffHolder
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +40,7 @@ abstract class DiffArrayAdapter constructor(
                 it.dataClz == d.javaClass
             }.takeUnless { it < 0 } ?: 0
         }.onFailure {
-            Log.e(javaClass)
+//            Log.e(javaClass)
             it.printStackTrace()
         }.getOrDefault(0)
 
