@@ -21,13 +21,13 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-class BindingDataArrayAdapter @JvmOverloads constructor(
+class BindingDataArrayAdapter<VD> @JvmOverloads constructor(
     @LayoutRes layoutResId: Int,
     var brId: Int,
-    items: List<Any> = listOf()
-) : BindingViewArrayAdapter<ViewDataBinding, Any>(layoutResId, items) {
+    items: List<VD> = listOf()
+) : BindingViewArrayAdapter<ViewDataBinding, VD>(layoutResId, items) {
 
-    override fun onBindViewHolder(bb: ViewDataBinding, d: Any, holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(bb: ViewDataBinding, d: VD, holder: RecyclerView.ViewHolder, position: Int) {
         bb.setVariable(brId, d)
         bb.executePendingBindings()
     }

@@ -42,7 +42,11 @@ class DiffArrayAdapterDemo : AppCompatActivity() {
                 NullItem::class.java
             ),
             items = ITEMS
-        )
+        ).apply {
+            setOnItemClickListener { parent, view, position, data ->
+
+            }
+        }
     }
 
     class DataArrayAdapter(vararg diffInfo: DiffInfo, var items: List<Any>) :

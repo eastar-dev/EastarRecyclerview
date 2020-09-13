@@ -22,10 +22,15 @@ class ArrayAdapterDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bb = ArrayadapterDemoBinding.inflate(layoutInflater)
         setContentView(bb.root)
-        bb.list.adapter = DataArrayAdapter(ITEMS)
+        bb.list.adapter = DataArrayAdapter(ITEMS).apply {
+            setOnItemClickListener { parent, view, position, data ->
+
+            }
+        }
     }
 
-    class DataArrayAdapter(items: List<Data>) : ArrayAdapter<Holder, Data>(R.layout.arrayadapter_demo_item, items) {
+    class DataArrayAdapter(items: List<Data>) :
+        ArrayAdapter<Holder, Data>(R.layout.arrayadapter_demo_item, items) {
         override fun getHolder(itemView: View, viewType: Int): Holder {
             return Holder(itemView)
         }

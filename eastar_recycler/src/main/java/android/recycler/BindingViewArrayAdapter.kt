@@ -22,7 +22,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD : Any> @JvmOverloads constructor(
+abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD> @JvmOverloads constructor(
     @LayoutRes layoutResId: Int,
     items: List<VD> = listOf()
 ) : ArrayAdapter<Holder<B>, VD>(layoutResId, items) {

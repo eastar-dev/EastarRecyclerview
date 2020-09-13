@@ -16,6 +16,10 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bb = BindingdataarrayadapterDemoBinding.inflate(layoutInflater)
         setContentView(bb.root)
-        bb.list.adapter = BindingDataArrayAdapter(R.layout.bindingdataarrayadapter_demo_item, BR.data, items)
+        bb.list.adapter = BindingDataArrayAdapter<Data>(R.layout.bindingdataarrayadapter_demo_item, BR.data, items).apply {
+            setOnItemClickListener { parent, view, position, data ->
+
+            }
+        }
     }
 }

@@ -21,6 +21,12 @@ class DiffBindingDataArrayAdapterDemo : AppCompatActivity() {
         bb = DataBindingUtil.setContentView(this, R.layout.diffbindingdataarrayadapter_demo)
         bb.vm = vm
         bb.lifecycleOwner = this
+
+        (bb.list.adapter as DiffBindingDataArrayAdapter).apply {
+            setOnItemClickListener { parent, view, position, data ->
+
+            }
+        }
     }
 }
 
