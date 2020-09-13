@@ -2,6 +2,7 @@ package dev.eastar.recyclerview
 
 import android.log.Log
 import android.recycler.DiffArrayAdapter
+import android.recycler.NullItem
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
 import androidx.lifecycle.MutableLiveData
@@ -15,7 +16,7 @@ class DiffBindingDataArrayAdapterDemoViewModel : ViewModel() {
     val items by lazy {
         MutableLiveData(DATA_SOURCE.mapIndexed { index, text ->
             if (index % 5 == 0)
-                DiffArrayAdapter.NullItem()
+                NullItem()
             else
                 Data("$ICON$index", text)
         })

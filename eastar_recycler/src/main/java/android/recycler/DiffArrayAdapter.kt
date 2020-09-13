@@ -17,7 +17,7 @@
 
 package android.recycler
 
-import android.log.Log
+//import android.log.Log
 import android.recycler.DiffArrayAdapter.DiffHolder
 import android.view.LayoutInflater
 import android.view.View
@@ -32,7 +32,7 @@ abstract class DiffArrayAdapter constructor(
     override fun getItemViewType(position: Int): Int {
         val d = getItem(position)
 
-        if (d is ItemViewType)
+        if (d is DiffItemViewType)
             return d.getItemViewType()
 
         return runCatching {
@@ -40,7 +40,7 @@ abstract class DiffArrayAdapter constructor(
                 it.dataClz == d.javaClass
             }.takeUnless { it < 0 } ?: 0
         }.onFailure {
-            Log.e(javaClass)
+//            Log.e(javaClass)
             it.printStackTrace()
         }.getOrDefault(0)
 
@@ -79,23 +79,15 @@ abstract class DiffArrayAdapter constructor(
     }
 
     //----------------------------------------------------------------------------------
-
     data class DiffInfo(
         @LayoutRes var layout: Int,
         var holderClz: Class<out DiffHolder<*>>,
         var dataClz: Class<*>? = null
     )
 
-
     abstract class DiffHolder<VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         abstract fun bind(d: VD)
     }
-
-    interface ItemViewType {
-        fun getItemViewType(): Int
-    }
-
-    open class NullItem
 
     class NullHolder(itemView: View) : DiffHolder<Any>(itemView) {
         override fun bind(d: Any) {}

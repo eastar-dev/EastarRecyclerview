@@ -2,7 +2,9 @@ package dev.eastar.recyclerview
 
 import android.os.Bundle
 import android.recycler.DiffArrayAdapter
-import android.recycler.DiffArrayAdapter.*
+import android.recycler.DiffArrayAdapter.DiffInfo
+import android.recycler.DiffArrayAdapter.NullHolder
+import android.recycler.NullItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -16,7 +18,7 @@ import dev.eastar.recyclerview.model.ICON
 class DiffArrayAdapterDemo : AppCompatActivity() {
     private val ITEMS = DATA_SOURCE
         .mapIndexed { index, text ->
-            if(index % 5==0)
+            if (index % 5 == 0)
                 NullItem()
             else
                 Data("$ICON$index", text)
@@ -31,16 +33,8 @@ class DiffArrayAdapterDemo : AppCompatActivity() {
         setContentView(bb.root)
 
         bb.list.adapter = DataArrayAdapter(
-            DiffInfo(
-                R.layout.diffarrayadapter_demo_item,
-                DataArrayAdapter.HolderItem::class.java,
-                Data::class.java
-            ),
-            DiffInfo(
-                R.layout.recycler_activity_item_devider,
-                NullHolder::class.java,
-                NullItem::class.java
-            ),
+            DiffInfo(R.layout.diffarrayadapter_demo_item, DataArrayAdapter.HolderItem::class.java, Data::class.java),
+            DiffInfo(R.layout.recycler_activity_item_devider, NullHolder::class.java, NullItem::class.java),
             items = ITEMS
         ).apply {
             setOnItemClickListener { parent, view, position, data ->
