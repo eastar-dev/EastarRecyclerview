@@ -13,11 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("LocalVariableName")
+@file:Suppress("unused")
 
 package android.recycler
 
-//import android.log.Log
 import android.recycler.DiffArrayAdapter.DiffHolder
 import android.view.LayoutInflater
 import android.view.View
@@ -40,7 +39,6 @@ abstract class DiffArrayAdapter constructor(
                 it.dataClz == d.javaClass
             }.takeUnless { it < 0 } ?: 0
         }.onFailure {
-//            Log.e(javaClass)
             it.printStackTrace()
         }.getOrDefault(0)
 
@@ -51,26 +49,21 @@ abstract class DiffArrayAdapter constructor(
     }
 
     override fun getHolder(itemView: View, viewType: Int): DiffHolder<Any> {
-//        Log.e(holder_clz)
-//        Log.e(parent.context.resources.getResourceName(layer))
-//        Log.e(Arrays.toString(holder_clz.constructors))
-//        Log.e(Arrays.toString(holder_clz.declaredConstructors))
+        val holderClz = diffInfo[viewType].holderClz
 
-        val holder_clz = diffInfo[viewType].holderClz
-        //holder
         @Suppress("UNCHECKED_CAST")
         return runCatching {
-            holder_clz.constructors[0].newInstance(itemView.context, itemView)
+            holderClz.constructors[0].newInstance(itemView.context, itemView)
         }.recoverCatching {
-            holder_clz.constructors[0].newInstance(this, itemView)
+            holderClz.constructors[0].newInstance(this, itemView)
         }.recoverCatching {
-            holder_clz.constructors[0].newInstance(itemView)
+            holderClz.constructors[0].newInstance(itemView)
         }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(itemView.context, itemView)
+            holderClz.declaredConstructors[0].newInstance(itemView.context, itemView)
         }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(this, itemView)
+            holderClz.declaredConstructors[0].newInstance(this, itemView)
         }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(itemView)
+            holderClz.declaredConstructors[0].newInstance(itemView)
         }.getOrThrow() as DiffHolder<Any>
     }
 

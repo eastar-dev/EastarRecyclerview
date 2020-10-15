@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+@file:Suppress("unused")
+
 package android.recycler
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -69,10 +72,10 @@ class OnFastScroller @JvmOverloads constructor(context: Context, attrs: Attribut
         updateBubbleAndHandlePosition()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent?): Boolean {
         event ?: return super.onTouchEvent(event)
-        val action = event.action
-        when (action) {
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 if (event.x < handle.x - ViewCompat.getPaddingStart(handle))
                     return false
@@ -122,17 +125,14 @@ class OnFastScroller @JvmOverloads constructor(context: Context, attrs: Attribut
                 handle.y + handle.height >= height - TRACK_SNAP_RANGE -> 1f
                 else -> y / height.toFloat()
             }
-            val targetPos = getValueInRange(0, itemCount - 1, (proportion * itemCount.toFloat()).toInt())
+            val targetPos = getValueInRange(itemCount - 1, (proportion * itemCount.toFloat()).toInt())
             (layoutManager as LinearLayoutManager).scrollToPositionWithOffset(targetPos, 0)
             val bubbleText = (recyclerView!!.adapter as BubbleTextGetter).getTextToShowInBubble(targetPos)
             bubble.text = bubbleText
         }
     }
 
-    private fun getValueInRange(min: Int, max: Int, value: Int): Int {
-        val minimum = max(min, value)
-        return min(minimum, max)
-    }
+    private fun getValueInRange(max: Int, value: Int) = min(max(0, value), max)
 
     private fun updateBubbleAndHandlePosition() {
         if (handle.isSelected)
@@ -148,10 +148,10 @@ class OnFastScroller @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private fun setBubbleAndHandlePosition(y: Float) {
         val handleHeight = handle.height
-        handle.y = getValueInRange(0, height - handleHeight, (y - handleHeight / 2).toInt()).toFloat()
+        handle.y = getValueInRange(height - handleHeight, (y - handleHeight / 2).toInt()).toFloat()
 
         val bubbleHeight = bubble.height
-        bubble.y = getValueInRange(0, height - bubbleHeight - handleHeight / 2, (y - bubbleHeight).toInt()).toFloat()
+        bubble.y = getValueInRange(height - bubbleHeight - handleHeight / 2, (y - bubbleHeight).toInt()).toFloat()
     }
 
     private fun showBubble() {
@@ -181,7 +181,7 @@ class OnFastScroller @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     companion object {
-        private val BUBBLE_ANIMATION_DURATION = 100
-        private val TRACK_SNAP_RANGE = 5
+        private const val BUBBLE_ANIMATION_DURATION = 100
+        private const val TRACK_SNAP_RANGE = 5
     }
 }

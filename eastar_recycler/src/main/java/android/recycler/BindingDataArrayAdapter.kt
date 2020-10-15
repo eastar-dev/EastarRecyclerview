@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class BindingDataArrayAdapter<VD> @JvmOverloads constructor(
     @LayoutRes layoutResId: Int,
-    var brId: Int,
+    private var brId: Int,
     items: List<VD> = listOf()
 ) : BindingViewArrayAdapter<ViewDataBinding, VD>(layoutResId, items) {
 

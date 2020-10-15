@@ -13,9 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("unused")
+@file:Suppress("LocalVariableName", "unused")
 
 package android.recycler
+
 
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +25,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
+open class DiffBindingViewArrayAdapter @JvmOverloads constructor(
     private vararg var diffInfo: DiffInfo,
     items: List<Any> = listOf()
 ) : BindingViewArrayAdapter<ViewDataBinding, Any>(0, items) {
@@ -40,6 +41,7 @@ open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
                 it.dataClz == d.javaClass
             }.takeUnless { it < 0 } ?: 0
         }.onFailure {
+//            Log.e(javaClass)
             it.printStackTrace()
         }.getOrDefault(0)
 

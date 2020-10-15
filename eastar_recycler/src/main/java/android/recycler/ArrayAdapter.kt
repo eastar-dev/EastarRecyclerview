@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("unused")
 
 package android.recycler
 
@@ -28,7 +28,6 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sign
 
-@Suppress("unused")
 abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads constructor(
     @LayoutRes val layoutId: Int,
     items: List<VD> = listOf()
