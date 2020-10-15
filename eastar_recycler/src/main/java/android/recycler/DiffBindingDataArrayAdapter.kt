@@ -24,10 +24,10 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
+open class DiffBindingDataArrayAdapter(
     private vararg var diffInfo: DiffInfo,
     items: List<Any> = listOf()
-) : BindingViewArrayAdapter<ViewDataBinding, Any>(0, items) {
+) : DataAdapter<RecyclerView.ViewHolder, Any>(items) {
 
     override fun getItemViewType(position: Int): Int {
         val d = getItem(position)
@@ -49,12 +49,21 @@ open class DiffBindingDataArrayAdapter @JvmOverloads constructor(
         return LayoutInflater.from(parent.context).inflate(diffInfo[viewType].layout, parent, false)
     }
 
-    override fun onBindViewHolder(bb: ViewDataBinding, d: Any, holder: RecyclerView.ViewHolder, position: Int) {
-        val brId: Int = diffInfo[holder.itemViewType].brId
-        bb.setVariable(brId, d)
-        bb.executePendingBindings()
-    }
+    //override fun onBindViewHolder(bb: ViewDataBinding, d: Any, holder: RecyclerView.ViewHolder, position: Int) {
+    //    val brId: Int = diffInfo[holder.itemViewType].brId
+    //    bb.setVariable(brId, d)
+    //    bb.executePendingBindings()
+    //}
 
     //-----------------------------------------------------------------------------
     data class DiffInfo(@LayoutRes var layout: Int, var brId: Int, var dataClz: Class<*>? = null)
+
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        TODO("Not yet implemented")
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        TODO("Not yet implemented")
+    }
 }

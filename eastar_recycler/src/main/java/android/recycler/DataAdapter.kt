@@ -28,46 +28,18 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sign
 
-abstract class DiffArrayAdapter(
-    private vararg var diffInfo: DiffInfo,
-    items: List<Any> = listOf()
-) : RecyclerView.Adapter<DiffArrayAdapter.DiffHolder<Any>>() {
-    override fun getItemViewType(position: Int): Int {
-        val d = getItem(position)
-
-        if (d is DiffItemViewType)
-            return d.getItemViewType()
-
-        return runCatching {
-            diffInfo.indexOfFirst {
-                it.dataClz == d.javaClass
-            }.takeUnless { it < 0 } ?: 0
-        }.onFailure {
-            it.printStackTrace()
-        }.getOrDefault(0)
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<Any> {
-        val itemView = getItemView(parent, viewType)
-        setOnItemClickListener(parent, itemView)
-        return getHolder(diffInfo[viewType].holderClz, itemView)
-    }
-
-    override fun onBindViewHolder(holder: DiffHolder<Any>, position: Int) {
-        onBindViewHolder(holder, getItem(position), position)
-    }
+abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(
+    items: List<VD> = listOf()
+) : RecyclerView.Adapter<VH>() {
 
     //----------------------------------------------------------------------------------
-    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: Any) {}
+    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {}
 
-    open fun onBindViewHolder(holder: DiffHolder<Any>, item: Any, position: Int) {
-        holder.bind(item, position)
-    }
+    open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View =
+        LayoutInflater.from(parent.context).inflate(layer, parent, false)
 
-    open fun getItemView(parent: ViewGroup, viewType: Int): View =
-        LayoutInflater.from(parent.context).inflate(diffInfo[viewType].layout, parent, false)
-
-    open fun getHolder(holderClass: Class<*>, itemView: View): DiffHolder<Any> {
+    open fun getHolder(holderClass: Class<VH>?, itemView: View): VH {
+        holderClass ?: throw ClassNotFoundException("Holder class not found")
         @Suppress("UNCHECKED_CAST")
         return runCatching {
             holderClass.constructors[0].newInstance(itemView.context, itemView)
@@ -81,7 +53,7 @@ abstract class DiffArrayAdapter(
             holderClass.declaredConstructors[0].newInstance(this, itemView)
         }.recoverCatching {
             holderClass.declaredConstructors[0].newInstance(itemView)
-        }.getOrThrow() as DiffHolder<Any>
+        }.getOrThrow() as VH
     }
 
     private fun setOnItemClickListener(parent: ViewGroup, itemView: View) {
@@ -91,38 +63,24 @@ abstract class DiffArrayAdapter(
             onItemClickListener?.invoke(parent, itemView, position, getItem(position))
         }
     }
-
     //----------------------------------------------------------------------------------
-    data class DiffInfo(
-        @LayoutRes var layout: Int,
-        var holderClz: Class<out DiffHolder<*>>,
-        var dataClz: Class<*>? = null
-    )
 
-    abstract class DiffHolder<VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(d: VD, position: Int)
-    }
-
-    class NullHolder(itemView: View) : DiffHolder<Any>(itemView) {
-        override fun bind(d: Any, position: Int) {}
-    }
-
+    private var objects: MutableList<VD> = items.toMutableList()
+    override fun getItemCount(): Int = objects.size
+    open fun getItem(position: Int): VD = objects[position]
     //----------------------------------------------------------------------------------
-//    fun itemChange(collection: Collection<Any>?) = set(collection)
-//    fun itemInsert(item: Any) = add(item)
-//    fun itemInsert(position: Int, item: Any) = add(position, item)
+//    fun itemChange(collection: Collection<VD>?) = set(collection)
+//    fun itemInsert(item: VD) = add(item)
+//    fun itemInsert(position: Int, item: VD) = add(position, item)
 //    fun itemMove(fromPosition: Int, toPosition: Int) = move(fromPosition, toPosition)
-//    fun itemRangeInserte(collection: Collection<Any>?) = addAll(collection)
-//    fun itemRangeInserte(position: Int, collection: Collection<Any>?) = addAll(position, collection)
+//    fun itemRangeInserte(collection: Collection<VD>?) = addAll(collection)
+//    fun itemRangeInserte(position: Int, collection: Collection<VD>?) = addAll(position, collection)
 //    fun itemRangeRemove(position: Int, itemCount: Int) = remove(position, itemCount)
 //    fun itemRemove(position: Int) = remove(position)
-    private var objects: MutableList<Any> = items.toMutableList()
-    override fun getItemCount(): Int = objects.size
-    open fun getItem(position: Int) = objects[position]
 
 
     private val lock = Any()
-    fun set(collection: Collection<Any>?) {
+    fun set(collection: Collection<VD>?) {
         synchronized(lock) {
             objects.clear()
             if (collection == null)
@@ -132,14 +90,14 @@ abstract class DiffArrayAdapter(
         notifyDataSetChanged()
     }
 
-    fun add(data: Any) {
+    fun add(data: VD) {
         synchronized(lock) {
             objects.add(data)
         }
         notifyItemInserted(objects.size)
     }
 
-    fun add(position: Int, item: Any) {
+    fun add(position: Int, item: VD) {
         if (position !in 0..objects.size) {
             Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
@@ -151,7 +109,7 @@ abstract class DiffArrayAdapter(
         notifyItemInserted(position)
     }
 
-    fun addAll(collection: Collection<Any>?) {
+    fun addAll(collection: Collection<VD>?) {
         if (collection == null)
             return
         val position = objects.size
@@ -161,7 +119,7 @@ abstract class DiffArrayAdapter(
         notifyItemRangeInserted(position, collection.size)
     }
 
-    fun addAll(position: Int, collection: Collection<Any>?) {
+    fun addAll(position: Int, collection: Collection<VD>?) {
         if (position !in 0..objects.size) {
             Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
@@ -249,22 +207,19 @@ abstract class DiffArrayAdapter(
         notifyDataSetChanged()
     }
 
-    fun sort(comparator: Comparator<Any>) {
+    fun sort(comparator: Comparator<in VD>) {
         synchronized(lock) {
             Collections.sort(objects, comparator)
         }
         notifyDataSetChanged()
     }
 
-    fun get() = objects
-
+    fun get(): List<VD> = objects
 
     //----------------------------------------------------------------------------------
-    private var onItemClickListener: ((parent: RecyclerView, view: View, position: Int, data: Any) -> Unit)? = null
+    private var onItemClickListener: ((parent: RecyclerView, view: View, position: Int, data: VD) -> Unit)? = null
 
-    fun setOnItemClickListener(onItemClickListener: (parent: RecyclerView, view: View, position: Int, data: Any) -> Unit) {
+    fun setOnItemClickListener(onItemClickListener: (parent: RecyclerView, view: View, position: Int, data: VD) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
-
-
 }
