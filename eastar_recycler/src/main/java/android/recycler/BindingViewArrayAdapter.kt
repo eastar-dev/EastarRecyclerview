@@ -15,6 +15,7 @@
  */
 package android.recycler
 
+
 import android.recycler.BindingViewArrayAdapter.Holder
 import android.view.View
 import androidx.annotation.LayoutRes
@@ -22,16 +23,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD> @JvmOverloads constructor(
+@Suppress("UNCHECKED_CAST")
+abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD>(
     @LayoutRes layoutResId: Int,
     items: List<VD> = listOf()
-) : ArrayAdapter<Holder<B>, VD>(layoutResId, items) {
+) : ArrayAdapter<Holder<B>, VD>(layoutResId, Holder::class.java as Class<Holder<B>>, items) {
 
     class Holder<B : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var bb: B = DataBindingUtil.bind(itemView)!!
     }
-
-    override fun getHolder(itemView: View, viewType: Int): Holder<B> = Holder(itemView)
 
     override fun onBindViewHolder(h: Holder<B>, d: VD, position: Int) {
         runCatching {
@@ -43,3 +43,4 @@ abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD> @JvmOverloads co
 
     abstract fun onBindViewHolder(bb: B, d: VD, holder: RecyclerView.ViewHolder, position: Int)
 }
+

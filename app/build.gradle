@@ -1,17 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
+
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     buildToolsVersion "29.0.3"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 30
     }
 
-    androidExtensions { features = ["parcelize"] }
     buildFeatures.viewBinding = true
     buildFeatures.dataBinding = true
     compileOptions {
@@ -34,11 +32,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation 'com.github.bumptech.glide:glide:4.11.0'
-    debugApi 'com.github.eastar-dev.EastarLog2:log:2.0.3'
-    releaseApi 'com.github.eastar-dev.EastarLog2:logNoOp:2.0.3'
+    debugApi 'com.github.eastar-dev.EastarLog2:log:2.0.6'
+    releaseApi 'com.github.eastar-dev.EastarLog2:logNoOp:2.0.6'
 
 
-    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.2'
-//    implementation project(':eastar_recycler')
-
+//    implementation 'com.github.eastar-dev:EastarRecyclerview:1.0.3'
+    implementation project(':eastar_recycler')
 }

@@ -28,49 +28,59 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.sign
 
-abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads constructor(
+abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD>(
     @LayoutRes val layoutId: Int,
+    private val holderClass: Class<VH>? = null,
     items: List<VD> = listOf()
 ) : RecyclerView.Adapter<VH>() {
-
-    private var objects: MutableList<VD> = items.toMutableList()
-    abstract fun getHolder(itemView: View, viewType: Int): VH
-    abstract fun onBindViewHolder(h: VH, d: VD, position: Int)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
         val itemView = getItemView(layoutId, parent, viewType)
         setOnItemClickListener(parent, itemView)
-        return getHolder(itemView, viewType)
-    }
-
-    private fun setOnItemClickListener(parent: ViewGroup, itemView: View) {
-        itemView.setOnClickListener { v ->
-            val position = (parent as RecyclerView).getChildLayoutPosition(v)
-            onItemClick(parent, itemView, position, getItem(position))
-            onItemClickListener?.invoke(parent, itemView, position, getItem(position))
-        }
-    }
-
-    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {
-    }
-
-    protected open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
-        return LayoutInflater.from(parent.context).inflate(layer, parent, false)
+        return getHolder(holderClass, itemView)
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         onBindViewHolder(holder, objects[position], position)
     }
 
+    //----------------------------------------------------------------------------------
+    open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {}
 
-    override fun getItemCount(): Int {
-        return objects.size
+    abstract fun onBindViewHolder(h: VH, d: VD, position: Int)
+
+    open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View =
+        LayoutInflater.from(parent.context).inflate(layer, parent, false)
+
+    open fun getHolder(holderClass: Class<VH>?, itemView: View): VH {
+        holderClass ?: throw ClassNotFoundException("Holder class not found")
+        @Suppress("UNCHECKED_CAST")
+        return runCatching {
+            holderClass.constructors[0].newInstance(itemView.context, itemView)
+        }.recoverCatching {
+            holderClass.constructors[0].newInstance(this, itemView)
+        }.recoverCatching {
+            holderClass.constructors[0].newInstance(itemView)
+        }.recoverCatching {
+            holderClass.declaredConstructors[0].newInstance(itemView.context, itemView)
+        }.recoverCatching {
+            holderClass.declaredConstructors[0].newInstance(this, itemView)
+        }.recoverCatching {
+            holderClass.declaredConstructors[0].newInstance(itemView)
+        }.getOrThrow() as VH
     }
 
-    fun getItem(position: Int): VD {
-        return objects[position]
+    private fun setOnItemClickListener(parent: ViewGroup, itemView: View) {
+        itemView.setOnClickListener {
+            val position = (parent as RecyclerView).getChildLayoutPosition(it)
+            onItemClick(parent, itemView, position, getItem(position))
+            onItemClickListener?.invoke(parent, itemView, position, getItem(position))
+        }
     }
+    //----------------------------------------------------------------------------------
 
+    private var objects: MutableList<VD> = items.toMutableList()
+    override fun getItemCount(): Int = objects.size
+    open fun getItem(position: Int): VD = objects[position]
     //----------------------------------------------------------------------------------
 //    fun itemChange(collection: Collection<VD>?) = set(collection)
 //    fun itemInsert(item: VD) = add(item)
@@ -217,9 +227,7 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
         notifyDataSetChanged()
     }
 
-    fun get(): List<VD> {
-        return objects
-    }
+    fun get(): List<VD> = objects
 
     //----------------------------------------------------------------------------------
     private var onItemClickListener: ((parent: RecyclerView, view: View, position: Int, data: VD) -> Unit)? = null
@@ -227,5 +235,4 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     fun setOnItemClickListener(onItemClickListener: (parent: RecyclerView, view: View, position: Int, data: VD) -> Unit) {
         this.onItemClickListener = onItemClickListener
     }
-
 }
