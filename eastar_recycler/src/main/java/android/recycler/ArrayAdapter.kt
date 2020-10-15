@@ -52,7 +52,6 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     open fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: VD) {
-//        Log.e("[clicled item] $position, $item")
     }
 
     protected open fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
@@ -102,7 +101,6 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     fun add(position: Int, item: VD) {
-//        Log.e(position, item)
         if (position !in 0..objects.size) {
             Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
@@ -139,7 +137,6 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
     }
 
     fun remove(position: Int) {
-//        Log.w(position)
         if (position !in 0 until objects.size)
             return
         synchronized(lock) {
@@ -157,7 +154,6 @@ abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD> @JvmOverloads cons
             Log.i("EastarRecyclerView", "!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]")
             return
         }
-//        Log.w(position, itemCount)
         synchronized(lock) {
             repeat(itemCount) {
                 objects.removeAt(position)
