@@ -68,7 +68,7 @@ abstract class DiffArrayAdapter constructor(
     }
 
     override fun onBindViewHolder(h: DiffHolder<Any>, d: Any, position: Int) {
-        h.bind(d)
+        h.bind(d, position)
     }
 
     //----------------------------------------------------------------------------------
@@ -79,10 +79,10 @@ abstract class DiffArrayAdapter constructor(
     )
 
     abstract class DiffHolder<VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(d: VD)
+        abstract fun bind(d: VD, position: Int)
     }
 
     class NullHolder(itemView: View) : DiffHolder<Any>(itemView) {
-        override fun bind(d: Any) {}
+        override fun bind(d: Any, position: Int) {}
     }
 }
