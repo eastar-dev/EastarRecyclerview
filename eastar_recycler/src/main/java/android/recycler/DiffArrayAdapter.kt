@@ -13,83 +13,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@file:Suppress("LocalVariableName")
+@file:Suppress("unused")
 
 package android.recycler
 
-//import android.log.Log
-import android.recycler.DiffArrayAdapter.DiffHolder
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
-abstract class DiffArrayAdapter constructor(
-    vararg var diffInfo: DiffInfo, items: List<Any> = listOf()
-) : ArrayAdapter<DiffHolder<Any>, Any>(0, items) {
-
+abstract class DiffArrayAdapter(
+    private vararg var diffInfo: DiffInfo,
+    items: List<Any> = listOf()
+) : DataAdapter<DiffArrayAdapter.DiffHolder<Any>, Any>(items) {
     override fun getItemViewType(position: Int): Int {
-        val d = getItem(position)
-
-        if (d is DiffItemViewType)
-            return d.getItemViewType()
-
-        return runCatching {
-            diffInfo.indexOfFirst {
-                it.dataClz == d.javaClass
-            }.takeUnless { it < 0 } ?: 0
-        }.onFailure {
-//            Log.e(javaClass)
-            it.printStackTrace()
-        }.getOrDefault(0)
-
+        val type = super.getItemViewType(position)
+        return if (type > 0)
+            type
+        else
+            getItem(position).runCatching {
+                diffInfo.indexOfFirst {
+                    it.dataClz == it.javaClass
+                }.takeUnless { it < 0 } ?: 0
+            }.onFailure {
+                it.printStackTrace()
+            }.getOrDefault(0)
     }
 
-    override fun getItemView(@LayoutRes layer: Int, parent: ViewGroup, viewType: Int): View {
-        return LayoutInflater.from(parent.context).inflate(diffInfo[viewType].layout, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<Any> {
+        val itemView = getItemView(parent, viewType)
+        setOnItemClickListener(parent, itemView)
+        return getHolder(diffInfo[viewType].holderClz, itemView)
+    }
+    //----------------------------------------------------------------------------------
+    //ez bind holder
+    override fun onBindViewHolder(holder: DiffHolder<Any>, item: Any, position: Int) {
+        holder.bind(item, position)
     }
 
-    override fun getHolder(itemView: View, viewType: Int): DiffHolder<Any> {
-//        Log.e(holder_clz)
-//        Log.e(parent.context.resources.getResourceName(layer))
-//        Log.e(Arrays.toString(holder_clz.constructors))
-//        Log.e(Arrays.toString(holder_clz.declaredConstructors))
-
-        val holder_clz = diffInfo[viewType].holderClz
-        //holder
-        @Suppress("UNCHECKED_CAST")
-        return runCatching {
-            holder_clz.constructors[0].newInstance(itemView.context, itemView)
-        }.recoverCatching {
-            holder_clz.constructors[0].newInstance(this, itemView)
-        }.recoverCatching {
-            holder_clz.constructors[0].newInstance(itemView)
-        }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(itemView.context, itemView)
-        }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(this, itemView)
-        }.recoverCatching {
-            holder_clz.declaredConstructors[0].newInstance(itemView)
-        }.getOrThrow() as DiffHolder<Any>
-    }
-
-    override fun onBindViewHolder(h: DiffHolder<Any>, d: Any, position: Int) {
-        h.bind(d)
+    open fun getItemView(parent: ViewGroup, viewType: Int): View {
+        return getItemView(diffInfo[viewType].layout, parent, viewType)
     }
 
     //----------------------------------------------------------------------------------
     data class DiffInfo(
         @LayoutRes var layout: Int,
-        var holderClz: Class<out DiffHolder<*>>,
+        var holderClz: Class<out DiffHolder<Any>>,
         var dataClz: Class<*>? = null
     )
 
     abstract class DiffHolder<VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        abstract fun bind(d: VD)
+        abstract fun bind(d: VD, position: Int)
     }
 
     class NullHolder(itemView: View) : DiffHolder<Any>(itemView) {
-        override fun bind(d: Any) {}
+        override fun bind(d: Any, position: Int) {}
     }
+
+
 }

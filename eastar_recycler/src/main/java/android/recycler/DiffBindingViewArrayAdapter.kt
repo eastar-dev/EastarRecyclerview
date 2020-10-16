@@ -24,10 +24,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-open class DiffBindingDataArrayAdapter(
+abstract class DiffBindingViewArrayAdapter(
     private vararg var diffInfo: DiffInfo,
-    items: List<Any> = listOf(),
-) : DataAdapter<DiffBindingDataArrayAdapter.DiffBindingDataHolder, Any>(items) {
+    items: List<Any> = listOf()
+) : DataAdapter<DiffBindingViewArrayAdapter.DiffHolder<out ViewDataBinding, Any>, Any>(items) {
     override fun getItemViewType(position: Int): Int {
         val type = super.getItemViewType(position)
         return if (type > 0)
@@ -42,31 +42,40 @@ open class DiffBindingDataArrayAdapter(
             }.getOrDefault(0)
     }
 
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffBindingDataHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<out ViewDataBinding, Any> {
         val itemView = getItemView(parent, viewType)
         setOnItemClickListener(parent, itemView)
-        return DiffBindingDataHolder(itemView)
+        return getHolder(diffInfo[viewType].holderClz, itemView)
     }
+
     //----------------------------------------------------------------------------------
     //ez bind holder
-    override fun onBindViewHolder(holder: DiffBindingDataHolder, item: Any, position: Int) {
-        holder.bind(diffInfo[holder.itemViewType].brId, item, position)
-
+    override fun onBindViewHolder(holder: DiffHolder<out ViewDataBinding, Any>, item: Any, position: Int) {
+        holder.bind(item, position)
     }
 
     open fun getItemView(parent: ViewGroup, viewType: Int): View {
         return getItemView(diffInfo[viewType].layout, parent, viewType)
     }
 
-    //-----------------------------------------------------------------------------
-    data class DiffInfo(@LayoutRes var layout: Int, var brId: Int, var dataClz: Class<*>? = null)
 
-    class DiffBindingDataHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bb: ViewDataBinding = DataBindingUtil.bind(itemView)!!
-        fun bind(brId: Int, item: Any, position: Int) {
-            bb.setVariable(brId, item)
-            bb.executePendingBindings()
+    //----------------------------------------------------------------------------------
+    data class DiffInfo(
+        @LayoutRes var layout: Int,
+        var holderClz: Class<out DiffHolder<out ViewDataBinding, Any>>,
+        var dataClz: Class<*>? = null
+    )
+
+    abstract class DiffHolder<B : ViewDataBinding, VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var bb: B = DataBindingUtil.bind(itemView)!!
+        fun bind(d: VD, position: Int) {
+            bind(bb, d, position)
         }
+
+        abstract fun bind(bb: B, d: VD, position: Int)
+    }
+
+    class NullHolder(itemView: View) : DiffHolder<ViewDataBinding, Any>(itemView) {
+        override fun bind(bb: ViewDataBinding, d: Any, position: Int) {}
     }
 }

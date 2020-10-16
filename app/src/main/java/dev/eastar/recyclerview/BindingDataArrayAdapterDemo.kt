@@ -1,5 +1,6 @@
 package dev.eastar.recyclerview
 
+import android.log.Log
 import android.os.Bundle
 import android.recycler.BindingDataArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
@@ -16,10 +17,11 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bb = BindingdataarrayadapterDemoBinding.inflate(layoutInflater)
         setContentView(bb.root)
-        bb.list.adapter = BindingDataArrayAdapter<Data>(R.layout.bindingdataarrayadapter_demo_item, BR.data, items).apply {
-            setOnItemClickListener { parent, view, position, data ->
-
+        bb.list.adapter = BindingDataArrayAdapter(R.layout.bindingdataarrayadapter_demo_item, BR.data, items)
+            .apply {
+                setOnItemClickListener { parent, view, position, data ->
+                    Log.e(parent, view, position, data)
+                }
             }
-        }
     }
 }
