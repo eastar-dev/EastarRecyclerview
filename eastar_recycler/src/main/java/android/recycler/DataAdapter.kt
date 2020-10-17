@@ -74,14 +74,6 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
         }.getOrThrow() as VH
     }
 
-    override fun getItemViewType(position: Int): Int {
-        val d = getItem(position)
-        return if (d is DiffItemViewType)
-            d.getItemViewType()
-        else
-            0
-    }
-
     //    var onItemClickListener: OnItemClickedListener<VD>? = null
     private var onItemClickListener: OnItemClickedListener<VD>? = null
     fun setOnItemClickListener(onItemClickListener: OnItemClickedListener<VD>?) {

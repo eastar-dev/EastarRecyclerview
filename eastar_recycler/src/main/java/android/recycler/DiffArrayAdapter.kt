@@ -26,18 +26,12 @@ abstract class DiffArrayAdapter(
     private vararg var diffInfo: DiffInfo,
     items: List<Any> = listOf()
 ) : DataAdapter<DiffArrayAdapter.DiffHolder<Any>, Any>(items) {
+
     override fun getItemViewType(position: Int): Int {
-        val type = super.getItemViewType(position)
-        return if (type > 0)
-            type
-        else
-            getItem(position).runCatching {
-                diffInfo.indexOfFirst {
-                    it.dataClz == it.javaClass
-                }.takeUnless { it < 0 } ?: 0
-            }.onFailure {
-                it.printStackTrace()
-            }.getOrDefault(0)
+        val d = getItem(position)
+        if (d is DiffItemViewType)
+            return d.getItemViewType()
+        return diffInfo.indexOfFirst { d.javaClass == it.dataClz }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<Any> {
