@@ -24,7 +24,7 @@ class DiffBindingDataArrayAdapterDemo : AppCompatActivity() {
 
         (bb.list.adapter as DiffBindingDataArrayAdapter).apply {
             setOnItemClickListener { parent, view, position, data ->
-
+                Log.e(parent, view, position, data)
             }
         }
     }

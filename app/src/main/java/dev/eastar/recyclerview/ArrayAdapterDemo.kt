@@ -47,7 +47,8 @@ class ArrayAdapterDemo : AppCompatActivity() {
         }
 
         override fun getItemCount(): Int = super.getItemCount()
-        override fun getHolder(holderClass: Class<Holder>?, itemView: View): Holder = super.getHolder(holderClass, itemView)
+        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder = super.getHolder(holderClass, itemView)
+        //override fun getHolder(holderClass: Class<out Holder>?, itemView: View): Holder = super.getHolder(holderClass, itemView)
         override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View = super.getItemView(layer, parent, viewType)
         override fun getItem(position: Int): Data = super.getItem(position)
     }
@@ -56,5 +57,4 @@ class ArrayAdapterDemo : AppCompatActivity() {
         var textView: TextView = itemView.findViewById(R.id.textView)
         var imageView: ImageView = itemView.findViewById(R.id.imageView)
     }
-
 }

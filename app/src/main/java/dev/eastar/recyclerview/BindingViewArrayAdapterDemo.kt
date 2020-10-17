@@ -30,11 +30,10 @@ class BindingViewArrayAdapterDemo : AppCompatActivity() {
         }
     }
 
-    class DataArrayAdapter(items: List<Data>) :
-        BindingViewArrayAdapter<BindingviewarrayadapterDemoItemBinding, Data>(
-            R.layout.bindingviewarrayadapter_demo_item,
-            items
-        ) {
+    class DataArrayAdapter(items: List<Data>) : BindingViewArrayAdapter<BindingviewarrayadapterDemoItemBinding, Data>(
+        R.layout.bindingviewarrayadapter_demo_item,
+        items
+    ) {
         override fun onBindViewHolder(
             bb: BindingviewarrayadapterDemoItemBinding,
             d: Data,
@@ -44,11 +43,11 @@ class BindingViewArrayAdapterDemo : AppCompatActivity() {
             Glide.with(bb.imageView).load(d.icon).into(bb.imageView)
             bb.textView.text = d.name
         }
+
         override fun getItemCount(): Int = super.getItemCount()
-        override fun getHolder(holderClass: Class<Holder<BindingviewarrayadapterDemoItemBinding>>?, itemView: View): Holder<BindingviewarrayadapterDemoItemBinding> = super.getHolder(holderClass, itemView)
+        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder<BindingviewarrayadapterDemoItemBinding> = super.getHolder(holderClass, itemView)
         override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View = super.getItemView(layer, parent, viewType)
         override fun getItem(position: Int): Data = super.getItem(position)
-
     }
 }
 

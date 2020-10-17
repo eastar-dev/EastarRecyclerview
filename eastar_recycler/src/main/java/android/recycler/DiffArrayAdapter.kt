@@ -45,8 +45,7 @@ abstract class DiffArrayAdapter(
         setOnItemClickListener(parent, itemView)
         return getHolder(diffInfo[viewType].holderClz, itemView)
     }
-    //----------------------------------------------------------------------------------
-    //ez bind holder
+
     override fun onBindViewHolder(holder: DiffHolder<Any>, item: Any, position: Int) {
         holder.bind(item, position)
     }
@@ -58,7 +57,7 @@ abstract class DiffArrayAdapter(
     //----------------------------------------------------------------------------------
     data class DiffInfo(
         @LayoutRes var layout: Int,
-        var holderClz: Class<out DiffHolder<Any>>,
+        var holderClz: Class<out DiffHolder<*>>,
         var dataClz: Class<*>? = null
     )
 
@@ -69,6 +68,4 @@ abstract class DiffArrayAdapter(
     class NullHolder(itemView: View) : DiffHolder<Any>(itemView) {
         override fun bind(d: Any, position: Int) {}
     }
-
-
 }

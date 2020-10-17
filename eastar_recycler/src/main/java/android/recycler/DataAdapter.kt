@@ -30,12 +30,12 @@ import kotlin.math.sign
 
 typealias OnItemClickedListener<VD> = (parent: RecyclerView, view: View, position: Int, data: VD) -> Unit
 
-abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = listOf())
-    : RecyclerView.Adapter<VH>() {
+abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = listOf()) : RecyclerView.Adapter<VH>() {
 
     fun setOnItemClickListener(parent: ViewGroup, itemView: View) {
         itemView.setOnClickListener {
             val position = (parent as RecyclerView).getChildLayoutPosition(it)
+            Log.d("EastarRecyclerView", "position item clicked [$position]")
             onItemClick(parent, itemView, position, getItem(position))
             onItemClickListener?.invoke(parent, itemView, position, getItem(position))
         }
@@ -56,7 +56,7 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
         return LayoutInflater.from(parent.context).inflate(layer, parent, false)
     }
 
-    open fun getHolder(holderClass: Class<out VH>?, itemView: View): VH {
+    open fun getHolder(holderClass: Class<*>?, itemView: View): VH {
         holderClass ?: throw ClassNotFoundException("Holder class not found")
         @Suppress("UNCHECKED_CAST")
         return runCatching {
@@ -123,10 +123,7 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
 
     fun add(position: Int, item: VD) {
         if (position !in 0..objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!position is must in 0 until objects.size  Current index is [$position]"
-            )
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
 
@@ -148,10 +145,7 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
 
     fun addAll(position: Int, collection: Collection<VD>?) {
         if (position !in 0..objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!position is must in 0 until objects.size  Current index is [$position]"
-            )
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
 
@@ -174,17 +168,11 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
 
     fun remove(position: Int, itemCount: Int) {
         if (position !in 0 until objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!position is must in 0 until objects.size  Current index is [$position]"
-            )
+            Log.i("EastarRecyclerView", "!position is must in 0 until objects.size  Current index is [$position]")
             return
         }
         if (itemCount > objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]"
-            )
+            Log.i("EastarRecyclerView", "!itemCount is must itemCount <= objects.size  Current objects.size is [objects.size] Current index is [$position]")
             return
         }
         synchronized(lock) {
@@ -197,17 +185,11 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
 
     fun move(fromPosition: Int, toPosition: Int, notifyItemChange: Boolean = false) {
         if (fromPosition !in 0 until objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]"
-            )
+            Log.i("EastarRecyclerView", "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
             return
         }
         if (toPosition !in 0 until objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]"
-            )
+            Log.i("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
             return
         }
         repeat(max(fromPosition, toPosition) - min(fromPosition, toPosition)) {
@@ -225,32 +207,17 @@ abstract class DataAdapter<VH : RecyclerView.ViewHolder?, VD>(items: List<VD> = 
 
     fun move(fromPosition: Int, toPosition: Int) {
         if (fromPosition !in 0 until objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]"
-            )
+            Log.i("EastarRecyclerView", "!fromPosition is must in 0..objects.size  Current fromPosition is [$fromPosition]")
             return
         }
         if (toPosition !in 0 until objects.size) {
-            Log.i(
-                "EastarRecyclerView",
-                "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]"
-            )
+            Log.i("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
             return
         }
 
-        Log.w(
-            "EastarRecyclerView",
-            "============================================================================="
-        )
-        Log.w(
-            "EastarRecyclerView",
-            "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]"
-        )
-        Log.w(
-            "EastarRecyclerView",
-            "============================================================================="
-        )
+        Log.w("EastarRecyclerView", "=============================================================================")
+        Log.w("EastarRecyclerView", "!toPosition is must in 0..objects.size  Current toPosition is [$toPosition]")
+        Log.w("EastarRecyclerView", "=============================================================================")
         synchronized(lock) {
             objects.add(toPosition, objects.removeAt(fromPosition))
         }

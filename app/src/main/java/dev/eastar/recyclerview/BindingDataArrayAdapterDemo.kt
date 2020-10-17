@@ -3,7 +3,9 @@ package dev.eastar.recyclerview
 import android.log.Log
 import android.os.Bundle
 import android.recycler.BindingDataArrayAdapter
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.RecyclerView
 import dev.eastar.recyclerview.databinding.BindingdataarrayadapterDemoBinding
 import dev.eastar.recyclerview.model.DATA_SOURCE
 import dev.eastar.recyclerview.model.Data
@@ -17,11 +19,18 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bb = BindingdataarrayadapterDemoBinding.inflate(layoutInflater)
         setContentView(bb.root)
-        bb.list.adapter = BindingDataArrayAdapter(R.layout.bindingdataarrayadapter_demo_item, BR.data, items)
-            .apply {
-                setOnItemClickListener { parent, view, position, data ->
-                    Log.e(parent, view, position, data)
-                }
-            }
+        //bb.list.adapter = BindingDataArrayAdapter(R.layout.bindingdataarrayadapter_demo_item, BR.data, items)
+        //    .apply {
+        //        setOnItemClickListener { parent, view, position, data ->
+        //            Log.e(parent, view, position, data)
+        //        }
+        //    }
+        bb.list.adapter = Holder()
+    }
+
+    inner class Holder : BindingDataArrayAdapter<Data>(R.layout.bindingdataarrayadapter_demo_item, BR.data, items) {
+        override fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: Data) {
+            super.onItemClick(parent, itemView, position, item)
+        }
     }
 }

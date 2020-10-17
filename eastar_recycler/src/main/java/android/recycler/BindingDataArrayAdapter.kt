@@ -21,7 +21,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 
-class BindingDataArrayAdapter<VD>(
+open class BindingDataArrayAdapter<VD>(
     @LayoutRes layoutResId: Int,
     private var brId: Int,
     items: List<VD> = listOf()
