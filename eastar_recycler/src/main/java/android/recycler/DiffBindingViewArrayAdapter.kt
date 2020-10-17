@@ -62,12 +62,12 @@ abstract class DiffBindingViewArrayAdapter(
     //----------------------------------------------------------------------------------
     data class DiffInfo(
         @LayoutRes var layout: Int,
-        var holderClz: Class<out DiffHolder<out ViewDataBinding, Any>>,
+        var holderClz: Class<out DiffHolder<out ViewDataBinding, *>>,
         var dataClz: Class<*>? = null
     )
 
     abstract class DiffHolder<B : ViewDataBinding, VD>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bb: B = DataBindingUtil.bind(itemView)!!
+        private val bb: B = DataBindingUtil.bind(itemView)!!
         fun bind(d: VD, position: Int) {
             bind(bb, d, position)
         }

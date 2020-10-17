@@ -63,8 +63,8 @@ open class DiffBindingDataArrayAdapter(
     data class DiffInfo(@LayoutRes var layout: Int, var brId: Int, var dataClz: Class<*>? = null)
 
     class DiffBindingDataHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bb: ViewDataBinding = DataBindingUtil.bind(itemView)!!
-        fun bind(brId: Int, item: Any, position: Int) {
+        private val bb: ViewDataBinding = DataBindingUtil.bind(itemView)!!
+        fun bind(brId: Int, item: Any, @Suppress("UNUSED_PARAMETER") position: Int) {
             bb.setVariable(brId, item)
             bb.executePendingBindings()
         }

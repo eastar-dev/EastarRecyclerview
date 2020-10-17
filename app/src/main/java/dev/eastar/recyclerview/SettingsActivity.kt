@@ -33,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
             setIntent("BindingViewArrayAdapterDemo", BindingViewArrayAdapterDemo::class.java)
             setIntent("DiffArrayAdapterDemo", DiffArrayAdapterDemo::class.java)
             setIntent("DiffBindingDataArrayAdapterDemo", DiffBindingDataArrayAdapterDemo::class.java)
+            setIntent("DiffBindingViewArrayAdapterDemo", DiffBindingViewArrayAdapterDemo::class.java)
         }
     }
 }

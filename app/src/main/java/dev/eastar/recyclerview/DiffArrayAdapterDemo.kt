@@ -39,7 +39,6 @@ class DiffArrayAdapterDemo : AppCompatActivity() {
     ) {
         override fun getItemCount(): Int = super.getItemCount()
         override fun getHolder(holderClass: Class<*>?, itemView: View): DiffHolder<Any> = super.getHolder(holderClass, itemView)
-        //override fun getHolder(holderClass: Class<out DiffHolder<Any>>?, itemView: View): DiffHolder<Any> = super.getHolder(holderClass, itemView)
         override fun getItemView(parent: ViewGroup, viewType: Int): View = super.getItemView(parent, viewType)
         override fun getItem(position: Int): Any = super.getItem(position)
         override fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: Any) {

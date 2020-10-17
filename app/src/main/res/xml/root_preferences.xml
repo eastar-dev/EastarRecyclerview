@@ -15,6 +15,10 @@
         <Preference
             app:key="BindingViewArrayAdapterDemo"
             app:title="BindingViewArrayAdapterDemo" />
+
+        <Preference
+            app:key="DiffBindingViewArrayAdapterDemo"
+            app:title="DiffBindingViewArrayAdapterDemo" />
     </PreferenceCategory>
 
     <PreferenceCategory app:title="Without Holder , With data set DataBinding Demo">
