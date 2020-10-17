@@ -36,21 +36,38 @@ class ArrayAdapterDemo : AppCompatActivity() {
             Holder::class.java,
             items,
         ) {
-        override fun onBindViewHolder(h: Holder, d: Data, position: Int) {
-            Glide.with(h.imageView).load(d.icon).into(h.imageView)
-            h.textView.text = d.name
+        override fun onBindViewHolder(holder: Holder, item: Data, position: Int) {
+            Glide.with(holder.imageView).load(item.icon).into(holder.imageView)
+            holder.textView.text = item.name
+        }
+
+        override fun onBindViewHolder(holder: Holder, position: Int) {
+            super.onBindViewHolder(holder, position)
         }
 
         override fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: Data) {
             super.onItemClick(parent, itemView, position, item)
-            Log.w(parent, itemView, position, item)
         }
 
-        override fun getItemCount(): Int = super.getItemCount()
-        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder = super.getHolder(holderClass, itemView)
-        //override fun getHolder(holderClass: Class<out Holder>?, itemView: View): Holder = super.getHolder(holderClass, itemView)
-        override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View = super.getItemView(layer, parent, viewType)
-        override fun getItem(position: Int): Data = super.getItem(position)
+        override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View {
+            return super.getItemView(layer, parent, viewType)
+        }
+
+        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder {
+            return super.getHolder(holderClass, itemView)
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return super.getItemViewType(position)
+        }
+
+        override fun getItemCount(): Int {
+            return super.getItemCount()
+        }
+
+        override fun getItem(position: Int): Data {
+            return super.getItem(position)
+        }
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {

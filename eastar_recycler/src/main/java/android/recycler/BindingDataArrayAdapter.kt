@@ -26,8 +26,8 @@ open class BindingDataArrayAdapter<VD>(
     private var brId: Int,
     items: List<VD> = listOf()
 ) : BindingViewArrayAdapter<ViewDataBinding, VD>(layoutResId, items) {
-    override fun onBindViewHolder(bb: ViewDataBinding, d: VD, holder: RecyclerView.ViewHolder, position: Int) {
-        bb.setVariable(brId, d)
+    override fun onBindViewHolder(bb: ViewDataBinding, item: VD, holder: RecyclerView.ViewHolder, position: Int) {
+        bb.setVariable(brId, item)
         bb.executePendingBindings()
     }
 }

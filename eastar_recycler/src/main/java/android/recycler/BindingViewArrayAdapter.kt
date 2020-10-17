@@ -16,8 +16,9 @@
 package android.recycler
 
 
-import android.recycler.BindingViewArrayAdapter.Holder
+//import android.recycler.BindingViewArrayAdapter.Holder
 import android.view.View
+import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -25,22 +26,22 @@ import androidx.recyclerview.widget.RecyclerView
 
 @Suppress("UNCHECKED_CAST")
 abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD>(
-    @LayoutRes layoutResId: Int,
+    @LayoutRes val layoutResId: Int,
     items: List<VD> = listOf()
-) : ArrayAdapter<Holder<B>, VD>(layoutResId, Holder::class.java as Class<Holder<B>>, items) {
-
-    class Holder<B : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var bb: B = DataBindingUtil.bind(itemView)!!
+) : DataAdapter<Holder<B>, VD>(items) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder<B> {
+        val itemView = getItemView(layoutResId, parent, viewType)
+        setOnItemClickListener(parent, itemView)
+        return getHolder(Holder::class.java, itemView)
     }
 
-    override fun onBindViewHolder(h: Holder<B>, d: VD, position: Int) {
-        runCatching {
-            onBindViewHolder(h.bb, d, h, position)
-        }.onFailure {
-            h.itemView.context.javaClass.name
-        }
+    override fun onBindViewHolder(holder: Holder<B>, item: VD, position: Int) {
+        onBindViewHolder(holder.bb, item, holder, position)
     }
 
-    abstract fun onBindViewHolder(bb: B, d: VD, holder: RecyclerView.ViewHolder, position: Int)
+    abstract fun onBindViewHolder(bb: B, item: VD, holder: RecyclerView.ViewHolder, position: Int)
 }
 
+class Holder<B : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    var bb: B = DataBindingUtil.bind(itemView)!!
+}

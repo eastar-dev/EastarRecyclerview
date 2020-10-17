@@ -3,6 +3,7 @@ package dev.eastar.recyclerview
 import android.log.Log
 import android.os.Bundle
 import android.recycler.BindingViewArrayAdapter
+import android.recycler.Holder
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
@@ -36,18 +37,49 @@ class BindingViewArrayAdapterDemo : AppCompatActivity() {
     ) {
         override fun onBindViewHolder(
             bb: BindingviewarrayadapterDemoItemBinding,
-            d: Data,
+            item: Data,
             holder: RecyclerView.ViewHolder,
             position: Int
         ) {
-            Glide.with(bb.imageView).load(d.icon).into(bb.imageView)
-            bb.textView.text = d.name
+            Glide.with(bb.imageView).load(item.icon).into(bb.imageView)
+            bb.textView.text = item.name
         }
 
-        override fun getItemCount(): Int = super.getItemCount()
-        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder<BindingviewarrayadapterDemoItemBinding> = super.getHolder(holderClass, itemView)
-        override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View = super.getItemView(layer, parent, viewType)
-        override fun getItem(position: Int): Data = super.getItem(position)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder<BindingviewarrayadapterDemoItemBinding> {
+            return super.onCreateViewHolder(parent, viewType)
+        }
+
+        override fun onBindViewHolder(holder: Holder<BindingviewarrayadapterDemoItemBinding>, item: Data, position: Int) {
+            super.onBindViewHolder(holder, item, position)
+        }
+
+        override fun onBindViewHolder(holder: Holder<BindingviewarrayadapterDemoItemBinding>, position: Int) {
+            super.onBindViewHolder(holder, position)
+        }
+
+        override fun onItemClick(parent: RecyclerView, itemView: View, position: Int, item: Data) {
+            super.onItemClick(parent, itemView, position, item)
+        }
+
+        override fun getItemView(layer: Int, parent: ViewGroup, viewType: Int): View {
+            return super.getItemView(layer, parent, viewType)
+        }
+
+        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder<BindingviewarrayadapterDemoItemBinding> {
+            return super.getHolder(holderClass, itemView)
+        }
+
+        override fun getItemViewType(position: Int): Int {
+            return super.getItemViewType(position)
+        }
+
+        override fun getItemCount(): Int {
+            return super.getItemCount()
+        }
+
+        override fun getItem(position: Int): Data {
+            return super.getItem(position)
+        }
     }
 }
 

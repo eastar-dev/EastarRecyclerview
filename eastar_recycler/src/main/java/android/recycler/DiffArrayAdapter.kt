@@ -41,6 +41,7 @@ abstract class DiffArrayAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<Any> {
+        //override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<Any> {
         val itemView = getItemView(parent, viewType)
         setOnItemClickListener(parent, itemView)
         return getHolder(diffInfo[viewType].holderClz, itemView)
@@ -49,6 +50,7 @@ abstract class DiffArrayAdapter(
     override fun onBindViewHolder(holder: DiffHolder<Any>, item: Any, position: Int) {
         holder.bind(item, position)
     }
+
 
     open fun getItemView(parent: ViewGroup, viewType: Int): View {
         return getItemView(diffInfo[viewType].layout, parent, viewType)

@@ -22,12 +22,12 @@ import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 
 abstract class ArrayAdapter<VH : RecyclerView.ViewHolder, VD>(
-    @LayoutRes val layoutId: Int,
+    @LayoutRes val layoutResId: Int,
     private val holderClass: Class<VH>? = null,
     items: List<VD> = listOf()
 ) : DataAdapter<VH, VD>(items) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
-        val itemView = getItemView(layoutId, parent, viewType)
+        val itemView = getItemView(layoutResId, parent, viewType)
         setOnItemClickListener(parent, itemView)
         return getHolder(holderClass, itemView)
     }
