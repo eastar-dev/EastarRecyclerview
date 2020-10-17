@@ -3,7 +3,6 @@ package dev.eastar.recyclerview
 import android.log.Log
 import android.os.Bundle
 import android.recycler.BindingViewArrayAdapter
-import android.recycler.Holder
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity

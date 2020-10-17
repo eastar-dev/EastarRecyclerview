@@ -32,7 +32,12 @@ abstract class DiffBindingViewArrayAdapter(
         val d = getItem(position)
         if (d is DiffItemViewType)
             return d.getItemViewType()
-        return diffInfo.indexOfFirst { d.javaClass == it.dataClz }
+
+        val type = diffInfo.map { it.dataClz }
+            .indexOf(d.javaClass)
+        if (type < 0)
+            throw IndexOutOfBoundsException("getItemViewType not found in diffInfo")
+        return type
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiffHolder<out ViewDataBinding, Any> {

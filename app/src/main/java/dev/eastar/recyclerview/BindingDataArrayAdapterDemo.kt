@@ -35,15 +35,15 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
             super.onBindViewHolder(bb, item, holder, position)
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): android.recycler.Holder<ViewDataBinding> {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder<ViewDataBinding> {
             return super.onCreateViewHolder(parent, viewType)
         }
 
-        override fun onBindViewHolder(holder: android.recycler.Holder<ViewDataBinding>, item: Data, position: Int) {
+        override fun onBindViewHolder(holder: Holder<ViewDataBinding>, item: Data, position: Int) {
             super.onBindViewHolder(holder, item, position)
         }
 
-        override fun onBindViewHolder(holder: android.recycler.Holder<ViewDataBinding>, position: Int) {
+        override fun onBindViewHolder(holder: Holder<ViewDataBinding>, position: Int) {
             super.onBindViewHolder(holder, position)
         }
 
@@ -55,12 +55,8 @@ class BindingDataArrayAdapterDemo : AppCompatActivity() {
             return super.getItemView(layer, parent, viewType)
         }
 
-        override fun getHolder(holderClass: Class<*>?, itemView: View): android.recycler.Holder<ViewDataBinding> {
+        override fun getHolder(holderClass: Class<*>?, itemView: View): Holder<ViewDataBinding> {
             return super.getHolder(holderClass, itemView)
-        }
-
-        override fun getItemViewType(position: Int): Int {
-            return super.getItemViewType(position)
         }
 
         override fun getItemCount(): Int {

@@ -28,7 +28,7 @@ import androidx.recyclerview.widget.RecyclerView
 abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD>(
     @LayoutRes val layoutResId: Int,
     items: List<VD> = listOf()
-) : DataAdapter<Holder<B>, VD>(items) {
+) : DataAdapter<BindingViewArrayAdapter.Holder<B>, VD>(items) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder<B> {
         val itemView = getItemView(layoutResId, parent, viewType)
         setOnItemClickListener(parent, itemView)
@@ -40,8 +40,9 @@ abstract class BindingViewArrayAdapter<B : ViewDataBinding, VD>(
     }
 
     abstract fun onBindViewHolder(bb: B, item: VD, holder: RecyclerView.ViewHolder, position: Int)
+
+    class Holder<B : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var bb: B = DataBindingUtil.bind(itemView)!!
+    }
 }
 
-class Holder<B : ViewDataBinding>(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var bb: B = DataBindingUtil.bind(itemView)!!
-}

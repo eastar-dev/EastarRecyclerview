@@ -32,7 +32,12 @@ open class DiffBindingDataArrayAdapter(
         val d = getItem(position)
         if (d is DiffItemViewType)
             return d.getItemViewType()
-        return diffInfo.indexOfFirst { d.javaClass == it.dataClz }
+
+        val type = diffInfo.map { it.dataClz }
+            .indexOf(d.javaClass)
+        if (type < 0)
+            throw IndexOutOfBoundsException("getItemViewType not found in diffInfo")
+        return type
     }
 
 
@@ -41,11 +46,11 @@ open class DiffBindingDataArrayAdapter(
         setOnItemClickListener(parent, itemView)
         return DiffBindingDataHolder(itemView)
     }
+
     //----------------------------------------------------------------------------------
     //ez bind holder
     override fun onBindViewHolder(holder: DiffBindingDataHolder, item: Any, position: Int) {
         holder.bind(diffInfo[holder.itemViewType].brId, item, position)
-
     }
 
     open fun getItemView(parent: ViewGroup, viewType: Int): View {
@@ -53,13 +58,19 @@ open class DiffBindingDataArrayAdapter(
     }
 
     //-----------------------------------------------------------------------------
-    data class DiffInfo(@LayoutRes var layout: Int, var brId: Int, var dataClz: Class<*>? = null)
+    data class DiffInfo(@LayoutRes var layout: Int, var brId: Int, var dataClz: Class<*>? = null) {
+        companion object {
+            const val NoBr = -1
+        }
+    }
 
     class DiffBindingDataHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val bb: ViewDataBinding = DataBindingUtil.bind(itemView)!!
         fun bind(brId: Int, item: Any, @Suppress("UNUSED_PARAMETER") position: Int) {
-            bb.setVariable(brId, item)
-            bb.executePendingBindings()
+            if (brId > 0) {
+                bb.setVariable(brId, item)
+                bb.executePendingBindings()
+            }
         }
     }
 }
