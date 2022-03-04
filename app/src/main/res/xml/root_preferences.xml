@@ -1,40 +1,17 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="With Holder Demo">
+    <PreferenceCategory app:title="Java">
 
         <Preference
-            app:key="ArrayAdapterDemo"
-            app:title="ArrayAdapterDemo" />
-        <Preference
-            app:key="DiffArrayAdapterDemo"
-            app:title="DiffArrayAdapterDemo" />
+            app:key="BindingAdapterJavaDemo"
+            app:title="BindingAdapterJavaDemo" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="Without Holder Demo">
+    <PreferenceCategory app:title="Kotlin">
         <Preference
-            app:key="BindingViewArrayAdapterDemo"
-            app:title="BindingViewArrayAdapterDemo" />
-
-        <Preference
-            app:key="DiffBindingViewArrayAdapterDemo"
-            app:title="DiffBindingViewArrayAdapterDemo" />
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="Without Holder , With data set DataBinding Demo">
-        <Preference
-            app:key="BindingDataArrayAdapterDemo"
-            app:title="BindingDataArrayAdapterDemo" />
-        <Preference
-            app:key="DiffBindingDataArrayAdapterDemo"
-            app:title="DiffBindingDataArrayAdapterDemo" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory app:title="New Sample">
-        <Preference
-            app:key="NewSample"
-            app:title="NewSample" />
+            app:key="BindingAdapterKotlinDemo"
+            app:title="BindingAdapterKotlinDemo" />
 
     </PreferenceCategory>
 

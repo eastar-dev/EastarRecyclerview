@@ -26,7 +26,7 @@ sealed class Parent {
     object Child3 : Parent()
 }
 
-class BindingAdapterDemo : AppCompatActivity() {
+class BindingAdapterKotlinDemo : AppCompatActivity() {
     private lateinit var bb: ArrayadapterDemoBinding
     private val ITEMS = DATA_SOURCE.mapIndexed { index, text -> Data("$ICON$index", text) }
 

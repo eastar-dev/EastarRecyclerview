@@ -49,11 +49,11 @@ abstract class BindingRecyclerAdapter<VD>(private vararg val holderInfo: HolderI
         }.recoverCatching {
             holderType.constructors[0].newInstance(itemView)
         }.recoverCatching {
-            holderType.declaredConstructors[0].newInstance(itemView.context, itemView)
+            holderType.declaredConstructors[0].apply { isAccessible = true }.newInstance(itemView.context, itemView)
         }.recoverCatching {
-            holderType.declaredConstructors[0].newInstance(this, itemView)
+            holderType.declaredConstructors[0].apply { isAccessible = true }.newInstance(this, itemView)
         }.recoverCatching {
-            holderType.declaredConstructors[0].newInstance(itemView)
+            holderType.declaredConstructors[0].apply { isAccessible = true }.newInstance(itemView)
         }.getOrThrow() as BindingHolder<ViewDataBinding, VD>
     }
 
@@ -74,7 +74,6 @@ abstract class BindingRecyclerAdapter<VD>(private vararg val holderInfo: HolderI
     data class HolderInfo(
         val dataType: Class<*>,
         val holderType: Class<out BindingHolder<*, *>>,
-        @LayoutRes val layoutRes: Int,
-        val callback: (() -> Unit)? = null
+        @LayoutRes val layoutRes: Int
     )
 }

@@ -18,13 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ArrayAdapterDemo" />
-        <activity android:name=".BindingDataArrayAdapterDemo" />
-        <activity android:name=".BindingViewArrayAdapterDemo" />
-        <activity android:name=".DiffArrayAdapterDemo" />
-        <activity android:name=".DiffBindingDataArrayAdapterDemo" />
-        <activity android:name=".DiffBindingViewArrayAdapterDemo" />
-        <activity android:name=".BindingAdapterDemo" />
+        <activity android:name=".BindingAdapterJavaDemo" />
+        <activity android:name=".BindingAdapterKotlinDemo" />
     </application>
 
 </manifest>
