@@ -2,13 +2,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="data"
-            type="dev.eastar.recyclerview.model.Data" />
-    </data>
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -20,7 +13,6 @@
             android:layout_margin="16dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            app:glideLoad="@{data.icon}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
@@ -31,9 +23,8 @@
             android:id="@+id/textView"
             android:layout_width="0dp"
             android:layout_height="match_parent"
+            android:background="#5f00"
             android:gravity="center_vertical"
-
-            android:text="@{data.name}"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"

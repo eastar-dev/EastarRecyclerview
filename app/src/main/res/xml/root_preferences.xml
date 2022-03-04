@@ -31,4 +31,11 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory app:title="New Sample">
+        <Preference
+            app:key="NewSample"
+            app:title="NewSample" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

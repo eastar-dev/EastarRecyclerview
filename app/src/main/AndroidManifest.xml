@@ -24,6 +24,7 @@
         <activity android:name=".DiffArrayAdapterDemo" />
         <activity android:name=".DiffBindingDataArrayAdapterDemo" />
         <activity android:name=".DiffBindingViewArrayAdapterDemo" />
+        <activity android:name=".BindingAdapterDemo" />
     </application>
 
 </manifest>
