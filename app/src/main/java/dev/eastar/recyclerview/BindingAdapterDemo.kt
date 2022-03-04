@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.recycler.BindingRecyclerAdapter
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import dev.eastar.recyclerview.databinding.ArrayadapterDemoBinding
 import dev.eastar.recyclerview.databinding.ChildLayout1Binding
@@ -33,7 +34,13 @@ class BindingAdapterDemo : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bb = ArrayadapterDemoBinding.inflate(layoutInflater)
         setContentView(bb.root)
-        val adapter = TestBindingAdapter()
+        val adapter = TestBindingAdapter({
+            Toast.makeText(this, "Child1BindingHolder imageView clicked", Toast.LENGTH_SHORT).show()
+        }, {
+            Toast.makeText(this, "Child3BindingHolder root clicked", Toast.LENGTH_SHORT).show()
+        }, {
+            Toast.makeText(this, "Child3BindingHolder imageView clicked", Toast.LENGTH_SHORT).show()
+        })
         bb.list.adapter = adapter
         adapter.items = ITEMS.mapIndexed { index, data ->
             when (index % 3) {
@@ -57,7 +64,7 @@ class BindingAdapterDemo : AppCompatActivity() {
             BindingHolder<ChildLayout1Binding, Parent.Child1>(itemView) {
             init {
                 binding.root.setOnClickListener { items[bindingAdapterPosition] }
-                binding.imageView.setOnClickListener { callback1.invoke() }
+                binding.imageView.setOnClickListener { callback1() }
             }
 
             override fun bind(data: Parent.Child1) {
@@ -76,6 +83,7 @@ class BindingAdapterDemo : AppCompatActivity() {
             BindingHolder<ChildLayout3Binding, Parent.Child2>(itemView) {
             init {
                 binding.root.setBackgroundColor(Color.BLUE)
+                binding.root.alpha = .5F
                 binding.imageView.setOnClickListener { callback3() }
                 binding.root.setOnClickListener { callback2() }
             }

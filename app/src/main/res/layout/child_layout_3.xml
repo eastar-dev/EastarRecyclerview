@@ -13,6 +13,7 @@
             android:layout_margin="16dp"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
+            android:src="@android:drawable/ic_media_previous"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
@@ -25,12 +26,12 @@
             android:layout_height="match_parent"
             android:background="#50f0"
             android:gravity="center_vertical"
+            android:text="run =333"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            android:text="run =333" />
+            app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

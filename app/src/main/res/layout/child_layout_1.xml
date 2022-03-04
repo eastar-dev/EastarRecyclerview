@@ -17,7 +17,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@tools:sample/avatars" />
+            android:src="@android:drawable/ic_media_play" />
 
         <TextView
             android:id="@+id/textView"
